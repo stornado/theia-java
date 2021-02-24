@@ -64,7 +64,11 @@ RUN set -x; \
     chown -R theia:theia /home/theia; \
     chown -R theia:theia /home/project; \
     \
-    echo "source /etc/profile" >> /home/theia/.bashrc;
+    echo "export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk" >> /home/theia/.bash_profile; \
+    echo "export PATH=$PATH:$JAVA_HOME/jre/bin:$JAVA_HOME/bin" >> /home/theia/.bash_profile; \
+    echo "export LANG=C.UTF-8" >> /home/theia/.bash_profile; \
+    echo "source /etc/profile" >> /home/theia/.bashrc; \
+    echo "source /home/theia/.bash_profile" >> /home/theia/.bashrc;
 
 COPY --from=builder --chown=theia:theia /home/theia /home/theia
 
