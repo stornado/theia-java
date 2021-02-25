@@ -26,12 +26,10 @@ FROM node:${NODE_VERSION}-alpine
 WORKDIR /home/theia
 ENV HOME=/home/theia \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-    PATH=$PATH:$JAVA_HOME/jre/bin:$JAVA_HOME/bin \
+    PATH=$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH \
     LANG=C.UTF-8
 
-# See : https://github.com/theia-ide/theia-apps/issues/34
 RUN set -x; \
-    echo -e "http://mirrors.aliyun.com/alpine/v3.13/main\nhttp://mirrors.aliyun.com/alpine/v3.13/community" > /etc/apk/repositories; \
     apk add --no-cache \
     bash \
     bash-completion \
@@ -46,6 +44,7 @@ RUN set -x; \
     maven \
     gradle \
     tree \
+    iputils \
     ; \
     apk add --no-cache --virtual .build-deps tzdata; \
     echo "Asia/Shanghai" > /etc/timezone; \
@@ -53,7 +52,7 @@ RUN set -x; \
     apk del --no-network .build-deps; \
     \
     export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk; \
-    export PATH=$PATH:$JAVA_HOME/jre/bin:$JAVA_HOME/bin; \
+    export PATH=$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH; \
     export LANG=C.UTF-8; \
     \
     addgroup theia; \
@@ -65,7 +64,7 @@ RUN set -x; \
     chown -R theia:theia /home/project; \
     \
     echo "export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk" >> /home/theia/.bash_profile; \
-    echo "export PATH=$PATH:$JAVA_HOME/jre/bin:$JAVA_HOME/bin" >> /home/theia/.bash_profile; \
+    echo "export PATH=$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH" >> /home/theia/.bash_profile; \
     echo "export LANG=C.UTF-8" >> /home/theia/.bash_profile; \
     echo "source /etc/profile" >> /home/theia/.bashrc; \
     echo "source /home/theia/.bash_profile" >> /home/theia/.bashrc;
