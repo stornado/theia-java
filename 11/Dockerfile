@@ -41,7 +41,7 @@ RUN set -x; \
     ca-certificates \
     curl \
     unzip \
-    openjdk11 \
+    openjdk11-jdk \
     maven \
     gradle \
     tree \
@@ -50,7 +50,7 @@ RUN set -x; \
     apk add --no-cache --virtual .build-deps tzdata; \
     echo "Asia/Shanghai" > /etc/timezone; \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime; \
-    apk del --no-network .build-deps; \
+    apk del --no-network --no-cache .build-deps; \
     \
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk; \
     export PATH=$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH; \
@@ -68,7 +68,9 @@ RUN set -x; \
     echo "export PATH=$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH" >> /home/theia/.bash_profile; \
     echo "export LANG=C.UTF-8" >> /home/theia/.bash_profile; \
     echo "source /etc/profile" >> /home/theia/.bashrc; \
-    echo "source /home/theia/.bash_profile" >> /home/theia/.bashrc;
+    echo "source /home/theia/.bash_profile" >> /home/theia/.bashrc; \
+    \
+    apk del --no-network --no-cache openjdk8
 
 COPY --from=builder --chown=theia:theia /home/theia /home/theia
 
