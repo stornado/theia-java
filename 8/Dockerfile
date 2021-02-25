@@ -38,6 +38,7 @@ RUN set -x; \
     git-bash-completion \
     git-lfs \
     openssl \
+    ca-certificates \
     curl \
     unzip \
     openjdk8 \
