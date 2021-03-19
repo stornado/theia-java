@@ -36,6 +36,7 @@ RUN set -x; \
     git \
     tig \
     git-bash-completion \
+    git-flow \
     git-lfs \
     openssl \
     ca-certificates \
